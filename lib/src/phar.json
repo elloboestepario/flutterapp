@@ -1,0 +1,26 @@
+{
+  "url": "https://raw.githubusercontent.com/voxserv/audio_quality_testing_samples/master/testaudio/16000/test01_20s.wav",
+  "localpath": "lib/audios/phrase2.wav",
+  "duration": 5400,
+  "filesize": 180000,
+  "translation": {
+    "text": "Hola, ¿cómo estás?",
+    "language": "es"
+  },
+  "transcription": [
+    {
+      "system": "IPA",
+      "text": "ˈo.la ˈko.mo esˈtas"
+    },
+    {
+      "system": "Latin",
+      "text": "Hola, como estas"
+    }
+  ],
+  "tags": [
+    "style.colloquial",
+    "subject.greeting"
+  ],
+  "reader": "Ana Pérez",
+  "citation": "Diálogo informal, curso de español A1"
+}

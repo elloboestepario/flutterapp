@@ -1,0 +1,49 @@
+Phrase {
+   url:
+     where is the audio located on the internet.
+   localpath:
+     where is or will be the audio downloaded to.
+   duration:
+     how long in milliseconds the audio lasts for
+   filesize:
+     how big is the audio file
+   Translation translation: or array or map
+     an object with text of translation and language
+   transcription: or array or map
+     This should also be an object, and probably an array or
+     hashmap of objects, because the transcription can be in
+     different charactersets.
+   String[] tags:
+     a list of plain text tags (or tag objects?) eg
+     "style.academic" "style.colloquial" "subject.sport" "subject.etc"
+   reader:
+     who read this audio file (a person, if known)
+   citation:
+     if the phrase came from a known work or quotation give
+     the citation for the phrase in some academic format.
+ }
+
+ Phrase.methods
+    fromJson()
+      a "factory" method to create an object from some json text
+    fromJsonMap()
+      the standard way in Dart to get an object from json seems to
+      be to first convert it to a dynamic map.
+    isLocal()
+      has the audio already been downloaded
+    download()
+    start()
+      play the audio from the beginning
+    play()
+      play the audio from the current play point
+    pause()
+      stop playing the audio but keep the play point
+    stop()
+      stop the audio and dispose because the word dispose sounds
+      very techy.
+    toJson()
+      It may (eventually) be nice to be able to create new audio files
+      and translations/transcriptions from within the app (why not?)
+      and modify and upload the json data file (or create a new data file
+      for the current user) and also upload the audio if desired. To
+      do all this, we have to first convert the Phrase object to json.
