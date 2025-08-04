@@ -8,9 +8,11 @@ import 'package:path/path.dart' as p;
 
 void main () async {
   WidgetsFlutterBinding.ensureInitialized();
-  //read json file
-  final file = File('lib/src/phar.json');
-  final jsonString = await file.readAsString();
+  //json
+  final url = 'https://raw.githubusercontent.com/elloboestepario/flutterapp/master/lib/phar.json';
+  // petición HTTP
+  final response = await http.get(Uri.parse(url));
+  final jsonString = response.body;
   final data = jsonDecode(jsonString);
   Phrase phraseObject = Phrase.fromJson(data);
   //for (Transcription object in phraseObject.transcription){
