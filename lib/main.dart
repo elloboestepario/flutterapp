@@ -10,14 +10,13 @@ void main () async {
   WidgetsFlutterBinding.ensureInitialized();
   //json
   final url = 'https://raw.githubusercontent.com/elloboestepario/flutterapp/master/lib/phar.json';
-  // petición HTTP
+  //rest api
   final response = await http.get(Uri.parse(url));
   final jsonString = response.body;
   List<dynamic> data = jsonDecode(jsonString);
-  List<Phrase> phraseList = data.map((json) => Phrase.fromJson(json)).toList();
 
-  PhraseList list = PhraseList(phraseList);
-  await list.playNext();
+  PhraseList list = PhraseList.fromJson(data);
+  list.playAgain();
 }
 
 class Phrase {
@@ -28,7 +27,7 @@ class Phrase {
   String reader;
   String citation;
   Translation translation;
-  List<Transcription> transcription;
+  Transcription transcription;
   List<String> tags;
 
   late final AudioPlayer _player = AudioPlayer();
@@ -42,7 +41,7 @@ class Phrase {
       duration: json['duration'] as int,
       filesize: json['filesize'] as int,
       translation: Translation.fromJson(json['translation']),
-      transcription: Transcription.fromJsonList(json['transcription']),
+      transcription: Transcription.fromJson(json['transcription']),
       tags: List<String>.from(json['tags']),
       reader: json['reader'] as String,
       citation: json['citation'] as String,);
@@ -98,7 +97,7 @@ class Phrase {
     'duration': duration,
     'filesize': filesize,
     'translation': translation.toJson(),
-    'transcription': transcription.map((t) => t.toJson()).toList(),
+    'transcription': transcription.toJson(),
     'tags': tags,
     'reader': reader,
     'citation': citation,
@@ -126,24 +125,20 @@ class Translation {
 }
 
 class Transcription {
-  String system;
+  String language;
   String text;
 
-  Transcription({required this.system, required this.text});
+  Transcription({required this.language, required this.text});
 
   factory Transcription.fromJson(Map<String, dynamic> json) {
     return Transcription(
-      system: json['system'],
+      language: json['language'],
       text: json['text'],
     );
   }
 
-  static List<Transcription> fromJsonList(List<dynamic> list) {
-    return list.map((item) => Transcription.fromJson(item)).toList();
-  }
-
   Map<String, dynamic> toJson() => {
-    'system': system,
+    'language': language,
     'text': text,
   };
 }
@@ -152,14 +147,33 @@ class PhraseList {
   final List<Phrase> phrases;
   int _index = 0;
 
-  PhraseList(this.phrases);
+  PhraseList({required this.phrases});
+  
+  factory PhraseList.fromJson(List<dynamic> jsonList) {
+    return PhraseList(
+      phrases: jsonList.map((item) => Phrase.fromJson(item)).toList(),
+    );
+  }
 
-  Future<void> playNext () async  {
-    _index++;
+  Future<void> playNext() async  {
+    //_index++;
     if (_index < phrases.length - 1) {
       await phrases[_index].start();
       print(_index);
     }
+  }
+
+  Future<void> playAgain() async {
+    await phrases[_index].start();
+    print('repeat audio');
+  }
+
+  Future<void> showTranslation() async {
+    print(phrases[_index].translation.text);
+  }
+
+  Future<void> showTranscription() async {
+    print(phrases[_index].transcription.text);
   }
 }
 
