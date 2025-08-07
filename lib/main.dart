@@ -13,10 +13,12 @@ void main () async {
   //rest api
   final response = await http.get(Uri.parse(url));
   final jsonString = response.body;
-  List<dynamic> data = jsonDecode(jsonString);
+  final data = jsonDecode(jsonString);
 
   PhraseList list = PhraseList.fromJson(data);
   list.playAgain();
+  list.showTranscription();
+  list.showTranslation();
 }
 
 class Phrase {
@@ -62,15 +64,17 @@ class Phrase {
   }
 
   Future<void> download() async{
-    final response = await http.get(Uri.parse(url));
+    if (!await isLocal()) {
+      final response = await http.get(Uri.parse(url));
 
-    if (response.statusCode == 200) {
-      //rout multiplatform
-      final file = await resolvedPath;
-      await file.writeAsBytes(response.bodyBytes);
-      print('download in $localpath');
-    } else {
-      print('Error: ${response.statusCode}');
+      if (response.statusCode == 200) {
+        //rout multiplatform
+        final file = await resolvedPath;
+        await file.writeAsBytes(response.bodyBytes);
+        print('download in $localpath');
+      } else {
+        print('Error: ${response.statusCode}');
+      }
     }
   }
 
@@ -156,7 +160,7 @@ class PhraseList {
   }
 
   Future<void> playNext() async  {
-    //_index++;
+    _index++;
     if (_index < phrases.length - 1) {
       await phrases[_index].start();
       print(_index);
@@ -169,11 +173,11 @@ class PhraseList {
   }
 
   Future<void> showTranslation() async {
-    print(phrases[_index].translation.text);
+    print('translation: ${phrases[_index].translation.text}');
   }
 
   Future<void> showTranscription() async {
-    print(phrases[_index].transcription.text);
+    print('transcription: ${phrases[_index].transcription.text}');
   }
 }
 
