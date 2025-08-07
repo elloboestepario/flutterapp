@@ -10,12 +10,12 @@
     },
     "transcription": [
       {
-        "text": "ˈ",
-        "language": "en"
+        "system": "IPA",
+        "text": "ˈo.la ˈko.mo esˈtas"
       },
       {
-        "text": "Hello, how are you",
-        "language": "en"
+        "system": "Latin",
+        "text": "Hola, como estas"
       }
     ],
     "tags": [
@@ -36,12 +36,12 @@
   },
   "transcription": [
     {
-      "text": "ˈ",
-      "language": "en"
+      "system": "IPA",
+      "text": "ˈo.la ˈko.mo esˈtas"
     },
     {
-      "text": "Hello, how are you",
-      "language": "en"
+      "system": "Latin",
+      "text": "Hola, como estas"
     }
   ],
   "tags": [
