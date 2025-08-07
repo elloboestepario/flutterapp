@@ -13,17 +13,11 @@ void main () async {
   // petición HTTP
   final response = await http.get(Uri.parse(url));
   final jsonString = response.body;
-  final data = jsonDecode(jsonString);
-  Phrase phraseObject = Phrase.fromJson(data);
-  //for (Transcription object in phraseObject.transcription){
-    //print(object.text);
-  //}
-  //is local
-  //print(await phraseObject.isLocal());
-  //download audio
-  await phraseObject.download();
-  //play audio
-  phraseObject.start();
+  List<dynamic> data = jsonDecode(jsonString);
+  List<Phrase> phraseList = data.map((json) => Phrase.fromJson(json)).toList();
+
+  PhraseList list = PhraseList(phraseList);
+  await list.playNext();
 }
 
 class Phrase {
@@ -152,6 +146,21 @@ class Transcription {
     'system': system,
     'text': text,
   };
+}
+
+class PhraseList {
+  final List<Phrase> phrases;
+  int _index = 0;
+
+  PhraseList(this.phrases);
+
+  Future<void> playNext () async  {
+    _index++;
+    if (_index < phrases.length - 1) {
+      await phrases[_index].start();
+      print(_index);
+    }
+  }
 }
 
 
