@@ -16,9 +16,13 @@ void main () async {
   final data = jsonDecode(jsonString);
 
   PhraseList list = PhraseList.fromJson(data);
-  list.playAgain();
+  list.start();
   list.showTranscription();
   list.showTranslation();
+  await Future.delayed(Duration(seconds: 6));
+  list.pause();
+  await Future.delayed(Duration(seconds: 4));
+  list.playAgain();
 }
 
 class Phrase {
@@ -168,7 +172,8 @@ class PhraseList {
   }
 
   Future<void> playAgain() async {
-    await start();
+    await _player.seek(Duration.zero);
+    await play();
     print('repeat audio');
   }
 
