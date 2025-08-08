@@ -32,8 +32,6 @@ class Phrase {
   Transcription transcription;
   List<String> tags;
 
-  late final AudioPlayer _player = AudioPlayer();
-
   Phrase({required this.url, required this.localpath, required this.duration, required this.filesize, required this.reader, required this.citation, required this.translation, required this.transcription, required this.tags});
 
   factory Phrase.fromJson(Map<String, dynamic> json) {
@@ -76,23 +74,6 @@ class Phrase {
         print('Error: ${response.statusCode}');
       }
     }
-  }
-
-  Future<void> start () async{
-    final file = await resolvedPath;
-    await _player.play(DeviceFileSource(file.path));
-  }
-
-  Future<void> play () async{
-    await _player.resume();
-  }
-
-  Future<void> pause () async{
-    await _player.pause();
-  }
-
-  Future<void> stop () async{
-    await _player.dispose();
   }
 
   Map<String, dynamic> toJson() => {
@@ -151,8 +132,10 @@ class PhraseList {
   final List<Phrase> phrases;
   int _index = 0;
 
+  final AudioPlayer _player = AudioPlayer();
+
   PhraseList({required this.phrases});
-  
+
   factory PhraseList.fromJson(List<dynamic> jsonList) {
     return PhraseList(
       phrases: jsonList.map((item) => Phrase.fromJson(item)).toList(),
@@ -160,15 +143,32 @@ class PhraseList {
   }
 
   Future<void> playNext() async  {
-    _index++;
     if (_index < phrases.length - 1) {
-      await phrases[_index].start();
+      _index++;
+      await start();
       print(_index);
     }
   }
 
+  Future<void> start () async{
+    final file = await phrases[_index].resolvedPath;
+    await _player.play(DeviceFileSource(file.path));
+  }
+
+  Future<void> play () async{
+    await _player.resume();
+  }
+
+  Future<void> pause () async{
+    await _player.pause();
+  }
+
+  Future<void> stop () async{
+    await _player.dispose();
+  }
+
   Future<void> playAgain() async {
-    await phrases[_index].start();
+    await start();
     print('repeat audio');
   }
 
