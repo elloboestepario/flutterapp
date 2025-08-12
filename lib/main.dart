@@ -17,5 +17,6 @@ void main() async {
 
   PhraseList list = PhraseList.fromJson(data);
 
-  runApp(MaterialApp(home: HomePage(list: list)));
+  //console flutter
+  runApp(MaterialApp(home: Console(list: list)));
 }

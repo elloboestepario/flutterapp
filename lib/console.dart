@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_console_widget/flutter_console.dart';
 import 'phraselist.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key, required this.list});
+class Console extends StatelessWidget {
+  Console({super.key, required this.list});
 
   final PhraseList list;
   final FlutterConsoleController controller = FlutterConsoleController();
