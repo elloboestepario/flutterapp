@@ -38,6 +38,7 @@ dependencies:
   audioplayers: any
   path_provider: any
   path: any
+  flutter_console_widget: ^0.0.3
 
 dev_dependencies:
   flutter_test:
