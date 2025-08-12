@@ -9,15 +9,12 @@ class HomePage extends StatelessWidget {
   final FlutterConsoleController controller = FlutterConsoleController();
 
   void echoLoop() {
-    controller.scan().then((value) {
+    controller.scan().then((value) async {
       controller.print(message: value, endline: true);
       controller.focusNode.requestFocus();
       switch (value.trim()) {
         case 'a':
-          controller.print(
-            message: "Repeat current phrase ...",
-            endline: true,
-          );
+          controller.print(message: "Repeat current phrase ...", endline: true);
           list.start();
           break;
         case 'n':
@@ -28,10 +25,16 @@ class HomePage extends StatelessWidget {
           list.playAgain();
           break;
         case 't':
-          list.showTranscription();
+          controller.print(
+            message: 'transcription: ${await list.showTranscription()}',
+            endline: true,
+          );
           break;
         case 's':
-          list.showTranslation();
+          controller.print(
+            message: 'translation: ${await list.showTranslation()}',
+            endline: true,
+          );
           break;
       }
 

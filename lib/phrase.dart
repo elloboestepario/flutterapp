@@ -56,7 +56,6 @@ class Phrase {
   }
 
   Future<void> download() async {
-    if (!await isLocal()) {
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
@@ -67,7 +66,6 @@ class Phrase {
       } else {
         print('Error: ${response.statusCode}');
       }
-    }
   }
 
   Map<String, dynamic> toJson() => {

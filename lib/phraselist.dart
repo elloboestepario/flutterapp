@@ -24,6 +24,7 @@ class PhraseList {
   }
 
   Future<void> start() async {
+    await phrases[_index].download();
     final file = await phrases[_index].resolvedPath;
     await _player.play(DeviceFileSource(file.path));
   }
@@ -46,11 +47,13 @@ class PhraseList {
     print('repeat audio');
   }
 
-  Future<void> showTranslation() async {
+  Future<String> showTranslation() async {
     print('translation: ${phrases[_index].translation.text}');
+    return phrases[_index].translation.text;
   }
 
-  Future<void> showTranscription() async {
+  Future<String> showTranscription() async {
     print('transcription: ${phrases[_index].transcription.text}');
+    return phrases[_index].transcription.text;
   }
 }
